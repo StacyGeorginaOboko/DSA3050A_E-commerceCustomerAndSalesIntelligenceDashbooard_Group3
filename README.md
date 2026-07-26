@@ -5,7 +5,7 @@
 |------|-----------|------|
 | [Patricia Kiarie] | [669781] | Business Lead / Docs Coordinator |
 | [Stacy Oboko] | [670722] | Power Query Specialist A |
-| [Jessica Kimani] | [668701 | Power Query Specialist B |
+| [Jessica Kimani] | [668701] | Power Query Specialist B |
 | [Monica Njoki] | [670176] | Data Modeller / DAX Lead |
 | [Paul Mbuvi] | [669984] | Dashboard Designer A |
 | [Mellisa Magani] | [669782] | Dashboard Designer B / Insights Lead |
