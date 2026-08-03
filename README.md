@@ -74,11 +74,62 @@ The dataset is split across 9 related CSV files (relational structure, joined by
 ## 6. Power Query Transformations
 _To be completed in Week 2._
 
-## 7. Data Model
-_To be completed in Week 3._
+## 7. Data Model Explanation
 
-## 8. DAX Measures
-_To be completed in Week 3._
+To enable scalable performance and support executive multi-dimensional analysis, the dataset was structured into a **Star Schema** centered around core transactional events. 
+
+### Schema Overview & Cardinality
+
+* **Fact Tables (Transaction / Event Data):**
+  * `olist_order_items_dataset`: Contains line-item level transaction details (prices, freight costs, products, and sellers).
+  * `olist_orders_dataset`: Contains order lifecycle events and timestamps (`order_purchase_timestamp`, `order_delivered_customer_date`, `order_estimated_delivery_date`).
+
+* **Dimension Tables (Contextual Data):**
+  * `olist_customers_dataset`: Customer demographic attributes (`customer_city`, `customer_state`).
+  * `olist_products_dataset`: Product details (`product_category_name`, dimensions, weight).
+  * `olist_sellers_dataset`: Seller attributes (`seller_city`, `seller_state`).
+  * `olist_order_reviews_dataset`: Customer rating data (`review_score`).
+  * `olist_order_payments_dataset`: Payment processing attributes (`payment_type`, `payment_installments`, `payment_value`).
+  * `Dim_Date`: Dedicated DAX-generated calendar dimension for time-intelligence operations.
+
+### Key Relationships & Filtering Directions
+
+All relationships are configured as **1-to-Many ($1:*$)** with **Single-direction filtering** flowing from Dimension tables to Fact tables to prevent ambiguous filter contexts:
+
+| Primary Key Table (1) | Primary Key Column | Foreign Key Table (*) | Foreign Key Column | Cardinality | Filter Direction |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `Dim_Date` | `Date` | `olist_orders_dataset` | `order_purchase_timestamp` | 1:* | Single |
+| `olist_customers_dataset` | `customer_id` | `olist_orders_dataset` | `customer_id` | 1:* | Single |
+| `olist_orders_dataset` | `order_id` | `olist_order_items_dataset` | `order_id` | 1:* | Single |
+| `olist_products_dataset` | `product_id` | `olist_order_items_dataset` | `product_id` | 1:* | Single |
+| `olist_sellers_dataset` | `seller_id` | `olist_order_items_dataset` | `seller_id` | 1:* | Single |
+| `olist_orders_dataset` | `order_id` | `olist_order_reviews_dataset` | `order_id` | 1:* | Single |
+| `olist_orders_dataset` | `order_id` | `olist_order_payments_dataset` | `order_id` | 1:* | Single |
+
+---
+
+## 8. DAX Measures Created
+
+All metrics were authored in DAX and centralized inside a dedicated `_Key Measures` table organized into functional display folders.
+
+### 8.1 Calendar Table Script (`Dim_Date`)
+Created via DAX to support Time Intelligence operations (YoY/MoM trends):
+
+```dax
+Dim_Date = 
+VAR MinYear = YEAR(MIN(olist_orders_dataset[order_purchase_timestamp]))
+VAR MaxYear = YEAR(MAX(olist_orders_dataset[order_purchase_timestamp]))
+RETURN
+ADDCOLUMNS (
+    CALENDAR(DATE(MinYear, 1, 1), DATE(MaxYear, 12, 31)),
+    "Year", YEAR([Date]),
+    "Month Number", MONTH([Date]),
+    "Month Name", FORMAT([Date], "MMM"),
+    "Month Year", FORMAT([Date], "MMM YYYY"),
+    "Month Year Sort", YEAR([Date]) * 100 + MONTH([Date]),
+    "Quarter", "Q" & FORMAT([Date], "Q"),
+    "Day of Week", FORMAT([Date], "DDD")
+)
 
 ## 9. Dashboard Pages
 _To be completed in Week 3–4._
