@@ -132,7 +132,40 @@ ADDCOLUMNS (
 )
 
 ## 9. Dashboard Pages
-_To be completed in Week 3–4._
+
+The Power BI report is structured into two core pages designed to provide leadership with high-level executive metrics alongside deep-dive operational insights.
+
+### Page 1: Executive Sales Dashboard
+This page provides executive leadership with a consolidated view of macro-level sales performance, regional revenue distribution, top-performing product categories, and overall historical sales trends.
+
+* **Key Performance Indicators (KPI Cards):**
+  * **Total Orders:** `98.67K` total orders processed across the network.
+  * **Total Revenue:** `R$ 13.59M` total sales generated (Sum of item price).
+  * **Average Order Value (AOV):** `R$ 120.65` average spend per order item.
+* **Geographic Analysis (Map – Revenue by State):** A spatial map visual displaying revenue density and order distribution across Brazilian states, highlighting sales concentration in key economic hubs (such as São Paulo and Rio de Janeiro).
+* **Category Performance (Bar Chart – Revenue by Product Category):** A horizontal bar chart ranking top categories by revenue generation. Key revenue drivers include:
+  1. `beleza_saude` (Health & Beauty)
+  2. `relogios_presentes` (Watches & Gifts)
+  3. `cama_mesa_banho` (Bed, Bath & Table)
+  4. `esporte_lazer` (Sports & Leisure)
+  5. `informatica_acessorios` (Computers & Accessories)
+* **Temporal Growth & Interactivity:**
+  * **Revenue Trend Over Time:** Line chart mapping monthly revenue trajectory from 2017 through 2019 to track seasonal peaks and multi-year trajectory.
+  * **Year Slicer:** Interactive checkbox slicer filtering the entire dashboard by Year (`2017`, `2018`, `2019`).
+
+---
+
+### Page 2: Customer Experience & Delivery Dashboard
+This page focuses on customer satisfaction, fulfillment efficiency, and analyzing the direct relationship between delivery lead times and customer review ratings across Brazilian states.
+
+* **Customer Satisfaction & Fulfillment KPIs:**
+  * **Average Review Score:** `4.09 / 5.00` rating across all reviewed customer orders.
+  * **Delivery Performance Breakdown (Donut Chart):** Visualizes the proportion of orders classified by fulfillment status (**On Time**, **Late**, and **In Transit / Pending**).
+* **Fulfillment Efficiency vs. Satisfaction (Scatter Plot – Delivery Time vs Review Score by State):**
+  * **X-Axis:** `delivery_duration_dates` (Fulfillment time in total days).
+  * **Y-Axis:** `Average of review_score` (Customer rating scale from 1 to 5).
+  * **Legend/Categorization:** `customer_state` (Color-coded across all Brazilian states).
+  * **Key Takeaway:** Illustrates a strong inverse relationship between delivery duration and review scores across states; as shipping lead times extend beyond 15–20 days, average review scores drop significantly toward 1–2 star levels.
 
 ## 10. Key Insights
 _To be completed in Week 4._
@@ -142,3 +175,4 @@ _To be completed in Week 4._
 
 ## 12. Contribution Summary
 _To be completed throughout — update per member as commits are made._
+
