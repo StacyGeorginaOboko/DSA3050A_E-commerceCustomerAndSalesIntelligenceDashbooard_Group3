@@ -72,7 +72,38 @@ The dataset is split across 9 related CSV files (relational structure, joined by
 ---
 
 ## 6. Power Query Transformations
-_To be completed in Week 2._
+
+## Raw data / loading
+- Initial CSV import shows the customer table columns before transformations:
+  - `customer_id`, `customer_unique_id`, `customer_zip_code_prefix`, `customer_city`, `customer_state`
+- The raw import is used as the starting point for deduplication, grouping, and joins.
+
+## Power Query — Advanced transformations
+Key transformation steps performed in Power Query:
+- Group By (Count distinct): summarized customers by `customer_city` and `customer_state`, producing a `Count` column of customers per city/state (this operation intentionally removes the individual `customer_id` column from the grouped result).
+- Conditional columns (nested if/else-if): created an `Order tier` column based on `payment_installments` (example logic: >6 → Standard; ≥3 → Premium; else → VVIP).
+- Merge queries (Left Outer): joined `olist_orders_dataset` with `olist_order_payments_dataset` on `order_id`. Result matched 99,440 of 99,441 rows with the chosen join.
+- Query referencing: used `Reference` to create new queries without duplicating transformation steps.
+- Parameters: `OrderStatusFilter` parameter defined (Text, required; suggested values include Delivered, Invoiced, Processing, Shipped, Unavailable) and set to `"Delivered"` for filtered reports.
+- Column profiling: used column quality/distribution/statistics to inspect fields such as `deadline_month_name`.
+- Custom Date table: built a Date table via Advanced Editor (M) producing Year, Month, MonthName, Quarter, Day for 2017–2019.
+
+## Screenshots — quick view (3 selected)
+Below are three representative screenshots from the `Screenshots/` folder to help understand key steps.
+
+1) Raw data import preview (customers)
+![CSV preview of olist_customers_dataset](Screenshots/1__olist_customers_dataset_load_data.png)
+_Caption: Initial CSV import preview showing customer columns before transformation._
+
+2) Group By result (city/state counts)
+![GroupBy summary](Screenshots/Groupby1.png)
+_Caption: Group By output summarizing distinct city/state combos with customer counts (example: São Paulo, SP → 15,540). This explains why `customer_id` no longer appears in the grouped output._
+
+3) Merge queries (orders + payments)
+![Merge dialog and join results](Screenshots/Merge.png)
+_Caption: Merge dialog joining orders and payments on `order_id` using Left Outer join; matched 99,440 of 99,441 rows._
+
+> Full screenshots: view the `Screenshots/` folder for all Power query images and additional steps.
 
 ## 7. Data Model Explanation
 
