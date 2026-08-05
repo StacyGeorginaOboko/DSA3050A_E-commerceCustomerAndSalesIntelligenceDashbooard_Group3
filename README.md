@@ -167,6 +167,8 @@ ADDCOLUMNS (
 The Power BI report is structured into two core pages designed to provide leadership with high-level executive metrics alongside deep-dive operational insights.
 
 ### Page 1: Executive Sales Dashboard
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/1328e100-962f-4125-92d2-584b947a08ba" />
+
 This page provides executive leadership with a consolidated view of macro-level sales performance, regional revenue distribution, top-performing product categories, and overall historical sales trends.
 
 * **Key Performance Indicators (KPI Cards):**
@@ -187,6 +189,8 @@ This page provides executive leadership with a consolidated view of macro-level 
 ---
 
 ### Page 2: Customer Experience & Delivery Dashboard
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/236b6aeb-1a5b-4312-b26c-95e49cf28149" />
+
 This page focuses on customer satisfaction, fulfillment efficiency, and analyzing the direct relationship between delivery lead times and customer review ratings across Brazilian states.
 
 * **Customer Satisfaction & Fulfillment KPIs:**
