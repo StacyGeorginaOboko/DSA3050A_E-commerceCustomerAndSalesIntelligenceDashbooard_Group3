@@ -130,7 +130,7 @@ ADDCOLUMNS (
     "Quarter", "Q" & FORMAT([Date], "Q"),
     "Day of Week", FORMAT([Date], "DDD")
 )
-
+```
 ## 9. Dashboard Pages
 
 The Power BI report is structured into two core pages designed to provide leadership with high-level executive metrics alongside deep-dive operational insights.
