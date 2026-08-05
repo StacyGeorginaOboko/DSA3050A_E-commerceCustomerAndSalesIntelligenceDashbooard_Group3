@@ -72,7 +72,38 @@ The dataset is split across 9 related CSV files (relational structure, joined by
 ---
 
 ## 6. Power Query Transformations
-_To be completed in Week 2._
+
+## Raw data / loading
+- Initial CSV import shows the customer table columns before transformations:
+  - `customer_id`, `customer_unique_id`, `customer_zip_code_prefix`, `customer_city`, `customer_state`
+- The raw import is used as the starting point for deduplication, grouping, and joins.
+
+## Power Query — Advanced transformations
+Key transformation steps performed in Power Query:
+- Group By (Count distinct): summarized customers by `customer_city` and `customer_state`, producing a `Count` column of customers per city/state (this operation intentionally removes the individual `customer_id` column from the grouped result).
+- Conditional columns (nested if/else-if): created an `Order tier` column based on `payment_installments` (example logic: >6 → Standard; ≥3 → Premium; else → VVIP).
+- Merge queries (Left Outer): joined `olist_orders_dataset` with `olist_order_payments_dataset` on `order_id`. Result matched 99,440 of 99,441 rows with the chosen join.
+- Query referencing: used `Reference` to create new queries without duplicating transformation steps.
+- Parameters: `OrderStatusFilter` parameter defined (Text, required; suggested values include Delivered, Invoiced, Processing, Shipped, Unavailable) and set to `"Delivered"` for filtered reports.
+- Column profiling: used column quality/distribution/statistics to inspect fields such as `deadline_month_name`.
+- Custom Date table: built a Date table via Advanced Editor (M) producing Year, Month, MonthName, Quarter, Day for 2017–2019.
+
+## Screenshots — quick view (3 selected)
+Below are three representative screenshots from the `Screenshots/` folder to help understand key steps.
+
+1) Raw data import preview (customers)
+![CSV preview of olist_customers_dataset](Screenshots/1__olist_customers_dataset_load_data.png)
+_Caption: Initial CSV import preview showing customer columns before transformation._
+
+2) Group By result (city/state counts)
+![GroupBy summary](Screenshots/Groupby1.png)
+_Caption: Group By output summarizing distinct city/state combos with customer counts (example: São Paulo, SP → 15,540). This explains why `customer_id` no longer appears in the grouped output._
+
+3) Merge queries (orders + payments)
+![Merge dialog and join results](Screenshots/Merge.png)
+_Caption: Merge dialog joining orders and payments on `order_id` using Left Outer join; matched 99,440 of 99,441 rows._
+
+> Full screenshots: view the `Screenshots/` folder for all Power query images and additional steps.
 
 ## 7. Data Model Explanation
 
@@ -136,6 +167,8 @@ ADDCOLUMNS (
 The Power BI report is structured into two core pages designed to provide leadership with high-level executive metrics alongside deep-dive operational insights.
 
 ### Page 1: Executive Sales Dashboard
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/236b6aeb-1a5b-4312-b26c-95e49cf28149" />
+
 This page provides executive leadership with a consolidated view of macro-level sales performance, regional revenue distribution, top-performing product categories, and overall historical sales trends.
 
 * **Key Performance Indicators (KPI Cards):**
@@ -156,6 +189,8 @@ This page provides executive leadership with a consolidated view of macro-level 
 ---
 
 ### Page 2: Customer Experience & Delivery Dashboard
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/1328e100-962f-4125-92d2-584b947a08ba" />
+
 This page focuses on customer satisfaction, fulfillment efficiency, and analyzing the direct relationship between delivery lead times and customer review ratings across Brazilian states.
 
 * **Customer Satisfaction & Fulfillment KPIs:**
@@ -168,11 +203,34 @@ This page focuses on customer satisfaction, fulfillment efficiency, and analyzin
   * **Key Takeaway:** Illustrates a strong inverse relationship between delivery duration and review scores across states; as shipping lead times extend beyond 15–20 days, average review scores drop significantly toward 1–2 star levels.
 
 ## 10. Key Insights
-_To be completed in Week 4._
+
+Based on the multi-dimensional analysis conducted across the Executive Sales and Customer Experience dashboards, several core patterns emerge:
+
+* **Geographic Revenue Concentration:** Sales are heavily skewed toward the Southeast region of Brazil, with São Paulo (`SP`) and Rio de Janeiro (`RJ`) serving as primary drivers of total order volume and overall marketplace revenue ($R\$ 13.59M$).
+* **Category Performance Drivers:** Revenue is anchored by a select few high-performing product categories—most notably `beleza_saude` (Health & Beauty), `relogios_presentes` (Watches & Gifts), and `cama_mesa_banho` (Bed, Bath & Table)—while several long-tail categories generate minimal return relative to listing overhead.
+* **Logistics & Satisfaction Inversion:** A strong inverse correlation exists between shipping duration (`delivery_duration_dates`) and customer satisfaction (`review_score`). Across all states, as fulfillment lead times exceed 15–20 days, average review scores drop significantly from the 4–5 star baseline down to 1–2 stars.
+* **Revenue Risk Clusters:** Regional delivery delays in remote states (particularly in the North and Northeast regions) disproportionately drive down review ratings, creating potential revenue loss and high customer churn risk in expanding regional markets.
+
+---
 
 ## 11. Recommendations
-_To be completed in Week 4._
+
+To maximize sales trajectory, optimize delivery operations, and protect customer lifetime value, Olist leadership should execute the following strategic actions:
+
+1. **Regional Fulfillment Hub Expansion:** Establish regional distribution hubs and local fulfillment partnerships in high-latency states (North and Northeast regions) to reduce transit lead times below the critical 15-day threshold, directly improving review scores.
+2. **Targeted Category Growth:** Allocate marketing spending and seller-onboarding incentives toward top-performing categories (`beleza_saude`, `relogios_presentes`, and `cama_mesa_banho`) while bundling or promoting underperforming niche categories.
+3. **Seller Performance & SLA Enforcements:** Implement stricter Service Level Agreements (SLAs) for marketplace sellers regarding dispatch timelines, issuing warnings or performance penalties to low-rated sellers with consistent delivery bottlenecks.
+4. **Delivery Transparency & Automated Communications:** Enhance order-tracking visibility by integrating automated proactive delivery updates, managing customer expectations during long-distance transit to mitigate negative review scores.
+
+---
 
 ## 12. Contribution Summary
-_To be completed throughout — update per member as commits are made._
 
+| Group Member | Student ID | Designated Role | Primary Project Contributions & Deliverables |
+| :--- | :--- | :--- | :--- |
+| **Patricia Kiarie** | 669781 | Business Lead / Docs Coordinator | Project scope formulation, business requirement mapping, overall README/documentation curation, and executive summary alignment. |
+| **Stacy Oboko** | 670722 | Power Query Specialist A | Initial data intake, data type standardizations, missing value handling, and Portuguese-to-English translation table joins. |
+| **Jessica Kimani** | 668701 | Power Query Specialist B | Relational key deduplication (geolocation, seller IDs), custom query transformations, and data hygiene optimization. |
+| **Monica Njoki** | 670176 | Data Modeller / DAX Lead | Star schema data model design, relationship configuration, `Dim_Date` table creation, and DAX measure development (`Key Measures`). |
+| **Paul Mbuvi** | 669984 | Dashboard Designer A | Canvas layout, color palette standardizations, and visual construction of the **Executive Sales Dashboard** (Page 1). |
+| **Mellisa Magani** | 669782 | Dashboard Designer B / Insights Lead | Visual design of the **Customer Experience & Delivery Dashboard** (Page 2), visual correlation analysis, key insight synthesis, and strategic recommendations. |
