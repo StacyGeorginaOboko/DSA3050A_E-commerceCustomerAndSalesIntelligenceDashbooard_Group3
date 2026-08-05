@@ -199,11 +199,34 @@ This page focuses on customer satisfaction, fulfillment efficiency, and analyzin
   * **Key Takeaway:** Illustrates a strong inverse relationship between delivery duration and review scores across states; as shipping lead times extend beyond 15–20 days, average review scores drop significantly toward 1–2 star levels.
 
 ## 10. Key Insights
-_To be completed in Week 4._
+
+Based on the multi-dimensional analysis conducted across the Executive Sales and Customer Experience dashboards, several core patterns emerge:
+
+* **Geographic Revenue Concentration:** Sales are heavily skewed toward the Southeast region of Brazil, with São Paulo (`SP`) and Rio de Janeiro (`RJ`) serving as primary drivers of total order volume and overall marketplace revenue ($R\$ 13.59M$).
+* **Category Performance Drivers:** Revenue is anchored by a select few high-performing product categories—most notably `beleza_saude` (Health & Beauty), `relogios_presentes` (Watches & Gifts), and `cama_mesa_banho` (Bed, Bath & Table)—while several long-tail categories generate minimal return relative to listing overhead.
+* **Logistics & Satisfaction Inversion:** A strong inverse correlation exists between shipping duration (`delivery_duration_dates`) and customer satisfaction (`review_score`). Across all states, as fulfillment lead times exceed 15–20 days, average review scores drop significantly from the 4–5 star baseline down to 1–2 stars.
+* **Revenue Risk Clusters:** Regional delivery delays in remote states (particularly in the North and Northeast regions) disproportionately drive down review ratings, creating potential revenue loss and high customer churn risk in expanding regional markets.
+
+---
 
 ## 11. Recommendations
-_To be completed in Week 4._
+
+To maximize sales trajectory, optimize delivery operations, and protect customer lifetime value, Olist leadership should execute the following strategic actions:
+
+1. **Regional Fulfillment Hub Expansion:** Establish regional distribution hubs and local fulfillment partnerships in high-latency states (North and Northeast regions) to reduce transit lead times below the critical 15-day threshold, directly improving review scores.
+2. **Targeted Category Growth:** Allocate marketing spending and seller-onboarding incentives toward top-performing categories (`beleza_saude`, `relogios_presentes`, and `cama_mesa_banho`) while bundling or promoting underperforming niche categories.
+3. **Seller Performance & SLA Enforcements:** Implement stricter Service Level Agreements (SLAs) for marketplace sellers regarding dispatch timelines, issuing warnings or performance penalties to low-rated sellers with consistent delivery bottlenecks.
+4. **Delivery Transparency & Automated Communications:** Enhance order-tracking visibility by integrating automated proactive delivery updates, managing customer expectations during long-distance transit to mitigate negative review scores.
+
+---
 
 ## 12. Contribution Summary
-_To be completed throughout — update per member as commits are made._
 
+| Group Member | Student ID | Designated Role | Primary Project Contributions & Deliverables |
+| :--- | :--- | :--- | :--- |
+| **Patricia Kiarie** | 669781 | Business Lead / Docs Coordinator | Project scope formulation, business requirement mapping, overall README/documentation curation, and executive summary alignment. |
+| **Stacy Oboko** | 670722 | Power Query Specialist A | Initial data intake, data type standardizations, missing value handling, and Portuguese-to-English translation table joins. |
+| **Jessica Kimani** | 668701 | Power Query Specialist B | Relational key deduplication (geolocation, seller IDs), custom query transformations, and data hygiene optimization. |
+| **Monica Njoki** | 670176 | Data Modeller / DAX Lead | Star schema data model design, relationship configuration, `Dim_Date` table creation, and DAX measure development (`Key Measures`). |
+| **Paul Mbuvi** | 669984 | Dashboard Designer A | Canvas layout, color palette standardizations, and visual construction of the **Executive Sales Dashboard** (Page 1). |
+| **Mellisa Magani** | 669782 | Dashboard Designer B / Insights Lead | Visual design of the **Customer Experience & Delivery Dashboard** (Page 2), visual correlation analysis, key insight synthesis, and strategic recommendations. |
