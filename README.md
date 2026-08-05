@@ -72,11 +72,34 @@ The dataset is split across 9 related CSV files (relational structure, joined by
 ---
 
 ## 6. Power Query Transformations
+This section documents the end-to-end ETL and data transformation pipeline executed in Power Query (M) across the six core Olist relational tables (olist_orders_dataset, olist_order_items_dataset, olist_customers_dataset, olist_order_payments_dataset, olist_products_dataset, and olist_sellers_dataset).
 
-## Raw data / loading
-- Initial CSV import shows the customer table columns before transformations:
-  - `customer_id`, `customer_unique_id`, `customer_zip_code_prefix`, `customer_city`, `customer_state`
-- The raw import is used as the starting point for deduplication, grouping, and joins.
+### Task 1: Rename Unclear Columns
+Target Fields: product_name_lenght $\rightarrow$ product_name_length, customer_zip_code_prefix $\rightarrow$ customer_postal_code, payment_sequential $\rightarrow$ payment_sequence_number, order_delivered_customer_date $\rightarrow$ actual_delivery_timestamp.
+
+Objective: Remove database typos and establish business-readable nomenclature across all dimension and fact tables.
+### Task 2: Correct Data Types
+Implementation: Ensured strict typing for tabular joins. Formatted postal codes as text strings with left-padding to 5 digits, ensuring leading zeros (such as 01001) are retained rather than converted to truncated integers.
+### Task 3: Remove Duplicates & Blank Rows
+Implementation: Executed strict deduplication logic on primary keys (order_id, customer_id) and multi-column composite keys (order_id + item_sequence_number for line items).
+### Task 4: Trim & Clean Text Columns
+Implementation: Eliminated hidden ASCII non-printable characters and extra whitespace from text fields to guarantee clean categorical filtering in visual slicers.
+### Task 5: Replace Inconsistent Values
+Implementation: Replaced raw database text strings with standardized title-cased labels across payment methods, order statuses, product categories, and city names.
+### Task 6: Handle Missing Values
+Implementation: Substituted missing attributes with default placeholders to prevent null propagation in DAX measures and visualization legends (e.g., assigning unassigned product categories to "Uncategorized" and missing prices to 0.00).
+### Task 7: Remove Unnecessary Columns 
+Implementation: Explicitly selected required columns rather than deleting unselected ones, ensuring query stability against unexpected upstream schema changes while removing unneeded physical dimensions.
+### Task 8: Split and Merge Columns
+Merged: Combined city and state attributes into a unified location string (e.g., "São Paulo, SP").
+
+Split: Separated order purchase timestamps into standalone purchase date and purchase time attributes.
+### Task 9: Create Custom and Conditional Columns
+Custom Revenue Logic: Added a custom calculation summing item price and freight cost to reflect gross transaction value per line item.
+
+Conditional Delivery Performance: Implemented conditional evaluation comparing actual delivery timestamps against estimated delivery timestamps to classify fulfillments as "On Time", "Late", or "In Transit / Pending".
+### Task 10: Extract Date Parts
+Implementation: Extracted individual calendar attributes (Year, Month, Month Name, Quarter, Day, and Day Name) directly from purchase timestamps to populate report time hierarchies without relying on DAX calculated columns.
 
 ## Power Query — Advanced transformations
 Key transformation steps performed in Power Query:
